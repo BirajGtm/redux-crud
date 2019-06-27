@@ -12,7 +12,7 @@ step 2:
 `npm run mock-api` to start fake json-server api.
 
 Install json-server globally if step 2 fails and then retry.
-`npm install -g json-server'
+`npm install -g json-server`
 
 ## Available Scripts
 
