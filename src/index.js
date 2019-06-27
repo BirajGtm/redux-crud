@@ -6,21 +6,7 @@ import { createStore } from "redux";
 import employeeReducer from "./config/employeeReducer";
 import { Provider } from "react-redux";
 
-let initialState = [
-  {
-    id: "1",
-    name: "Prayatna",
-    e_id: "Bottle-1",
-    position: "Frontend Developer"
-  },
-  {
-    id: "2",
-    name: "Dipesh",
-    e_id: "Bottle-2",
-    position: "HR Manager"
-  }
-];
-
+let initialState = [];
 const store = createStore(
   employeeReducer,
   initialState,

@@ -1,0 +1,16 @@
+{
+  "employees": [
+    {
+      "id": "1",
+      "name": "Prayatna",
+      "e_id": "Bottle-1",
+      "position": "Frontend Developer"
+    },
+    {
+      "name": "Dipesh",
+      "e_id": "Bottle-2",
+      "position": "HR Manager",
+      "id": "2"
+    }
+  ]
+}

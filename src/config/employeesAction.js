@@ -18,3 +18,10 @@ export function updateEmployee(employee) {
     payload: employee
   };
 }
+
+export function initEmployees(employees) {
+  return {
+    type: "INIT_EMPLOYEES",
+    payload: employees
+  };
+}

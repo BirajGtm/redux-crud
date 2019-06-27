@@ -17,8 +17,10 @@ import { bindActionCreators } from "redux";
 import {
   addEmployee,
   deleteEmployee,
-  updateEmployee
+  updateEmployee,
+  initEmployees
 } from "./config/employeesAction";
+import axios from "axios";
 
 class App extends Component {
   constructor(props) {
@@ -28,30 +30,42 @@ class App extends Component {
     this.addNewEmployee = this.addNewEmployee.bind(this);
   }
 
-  addNewEmployee() {
-    this.props.addEmployee({
+  async componentDidMount() {
+    let response = await axios.get("http://localhost:3001/employees");
+    this.props.initEmployees(response.data);
+  }
+
+  async addNewEmployee() {
+    let data = {
       id: Math.random()
         .toString(36)
         .substr(2, 9),
       name: "Employee Name",
       e_id: "Employee ID",
       position: "Employee Position"
-    });
+    };
+    this.props.addEmployee(data);
+    await axios.post("http://localhost:3001/employees", data);
   }
 
-  deleteEmployee(id) {
+  async deleteEmployee(id) {
     let r = window.confirm("Do you want to delete this item");
     if (r === true) {
       this.props.deleteEmployee(id);
+      await axios.delete(`http://localhost:3001/employees/${id}`);
     }
   }
 
-  editEmployeeSubmit(id, name, e_id, position) {
+  async editEmployeeSubmit(id, name, e_id, position) {
     this.props.updateEmployee({ id, name, e_id, position });
+    await axios.put(`http://localhost:3001/employees/${id}`, {
+      name,
+      e_id,
+      position
+    });
   }
 
   render() {
-    console.log(this.props, "props");
     return (
       <Box component="span" m={1}>
         <Container maxWidth="lg">
@@ -106,7 +120,8 @@ const mapDispatchToProps = dispatch => {
     {
       addEmployee: addEmployee,
       deleteEmployee: deleteEmployee,
-      updateEmployee: updateEmployee
+      updateEmployee: updateEmployee,
+      initEmployees: initEmployees
     },
     dispatch
   );
