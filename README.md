@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-##Intro
+## Intro
 
 Simple CRUD react app that uses redux to save all the data.
 
