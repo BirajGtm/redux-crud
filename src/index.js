@@ -6,11 +6,20 @@ import { createStore } from "redux";
 import employeeReducer from "./config/employeeReducer";
 import { Provider } from "react-redux";
 
-let initialState = [];
-
-// if (localStorage.getItem("employees") === null)
-//   localStorage.setItem("students", JSON.stringify(initialState));
-// else initialState = JSON.parse(localStorage.getItem("employees"));
+let initialState = [
+  {
+    id: "1",
+    name: "Prayatna",
+    e_id: "Bottle-1",
+    position: "Frontend Developer"
+  },
+  {
+    id: "2",
+    name: "Dipesh",
+    e_id: "Bottle-2",
+    position: "HR Manager"
+  }
+];
 
 const store = createStore(
   employeeReducer,

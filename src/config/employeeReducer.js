@@ -1,18 +1,16 @@
-let stateCopy;
+let newState;
 const employeeReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_EMPLOYEE":
-      stateCopy = [...state, action.payload];
-      // localStorage.setItem("employees", JSON.stringify(stateCopy));
-      return stateCopy;
+      newState = [...state, action.payload];
+      return newState;
 
     case "DELETE_EMPLOYEE":
-      stateCopy = state.filter(x => x.id !== action.payload);
-      // localStorage.setItem("employees", JSON.stringify(stateCopy));
-      return stateCopy;
+      newState = state.filter(x => x.id !== action.payload);
+      return newState;
 
     case "UPDATE_EMPLOYEE":
-      stateCopy = state
+      newState = state
         .map(employee => {
           const { id, name, e_id, position } = action.payload;
           if (employee.id === id) {
@@ -22,9 +20,13 @@ const employeeReducer = (state = [], action) => {
           }
           return employee;
         })
-        .filter(item => item.name !== "Employee Name");
-      // localStorage.setItem("employees", JSON.stringify(stateCopy));
-      return stateCopy;
+        .filter(
+          item =>
+            item.name !== "Employee Name" ||
+            item.e_id !== "Employee ID" ||
+            item.position !== "Employee Position"
+        );
+      return newState;
 
     default:
       return state;

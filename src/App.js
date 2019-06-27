@@ -20,9 +20,6 @@ import {
   updateEmployee
 } from "./config/employeesAction";
 
-const employeeList = [];
-// if (localStorage.getItem("employees") === null)
-// localStorage.setItem("employees", JSON.stringify(employeeList));
 class App extends Component {
   constructor(props) {
     super(props);
@@ -46,13 +43,11 @@ class App extends Component {
     let r = window.confirm("Do you want to delete this item");
     if (r === true) {
       this.props.deleteEmployee(id);
-      // localStorage.setItem("employees", JSON.stringify(filteredEmployeeList));
     }
   }
 
   editEmployeeSubmit(id, name, e_id, position) {
     this.props.updateEmployee({ id, name, e_id, position });
-    // localStorage.setItem("employees", JSON.stringify(employeeListCopy));
   }
 
   render() {
