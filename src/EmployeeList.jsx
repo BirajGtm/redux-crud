@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import EmployeeItem from "./EmployeeItem.jsx";
 import TableBody from "@material-ui/core/TableBody";
+
 export default class EmployeeList extends Component {
   render() {
     let employees = this.props.employeeList;
@@ -12,6 +13,7 @@ export default class EmployeeList extends Component {
         deleteEmployee={this.props.deleteEmployee}
       />
     ));
+
     return <TableBody>{trItem}</TableBody>;
   }
 }

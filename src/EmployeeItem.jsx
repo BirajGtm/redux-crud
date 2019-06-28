@@ -3,12 +3,14 @@ import Button from "@material-ui/core/Button";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TextField from "@material-ui/core/TextField";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 export default class EmployeeItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isEdit: false,
+      isLoading: false,
       name: this.props.employee.name,
       e_id: this.props.employee.e_id,
       position: this.props.employee.position
@@ -18,7 +20,11 @@ export default class EmployeeItem extends Component {
     this.deleteEmployee = this.deleteEmployee.bind(this);
   }
 
-  deleteEmployee() {
+  componentWillReceiveProps() {
+    this.setState({ isLoading: false });
+  }
+  async deleteEmployee() {
+    await this.setState({ isLoading: true });
     const { id } = this.props.employee;
     this.props.deleteEmployee(id);
   }
@@ -27,7 +33,8 @@ export default class EmployeeItem extends Component {
       isEdit: !prevState.isEdit
     }));
   }
-  editEmployeeSubmit() {
+  async editEmployeeSubmit() {
+    await this.setState({ isLoading: true });
     const { id } = this.props.employee;
     this.setState((prevState, props) => ({
       isEdit: !prevState.isEdit
@@ -41,6 +48,15 @@ export default class EmployeeItem extends Component {
   }
   render() {
     const { name, e_id, position } = this.props.employee;
+    if (this.state.isLoading) {
+      return (
+        <TableRow key={this.props.index}>
+          <TableCell colSpan="5">
+            <LinearProgress />
+          </TableCell>
+        </TableRow>
+      );
+    }
     return this.state.isEdit === true ? (
       <TableRow style={{ backgroundColor: "#b6c0c854" }} key={this.props.index}>
         <TableCell>

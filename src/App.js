@@ -12,6 +12,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
+import Chip from "@material-ui/core/Chip";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
@@ -25,6 +26,11 @@ import axios from "axios";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      error: false,
+      success: false,
+      message: ""
+    };
     this.editEmployeeSubmit = this.editEmployeeSubmit.bind(this);
     this.deleteEmployee = this.deleteEmployee.bind(this);
     this.addNewEmployee = this.addNewEmployee.bind(this);
@@ -32,7 +38,15 @@ class App extends Component {
 
   async componentDidMount() {
     let response = await axios.get("http://localhost:3001/employees");
-    this.props.initEmployees(response.data);
+    if (response.status === 200) {
+      this.props.initEmployees(response.data);
+    } else {
+      this.setState({
+        error: true,
+        success: false,
+        message: "Error when fetching data!"
+      });
+    }
   }
 
   async addNewEmployee() {
@@ -40,29 +54,71 @@ class App extends Component {
       id: Math.random()
         .toString(36)
         .substr(2, 9),
-      name: "Employee Name",
-      e_id: "Employee ID",
-      position: "Employee Position"
+      name: "",
+      e_id: "",
+      position: ""
     };
-    this.props.addEmployee(data);
-    await axios.post("http://localhost:3001/employees", data);
+    let response = await axios.post("http://localhost:3001/employees", data);
+    console.log(response);
+    if (response.status === 201) {
+      this.props.addEmployee(data);
+      this.setState({
+        success: true,
+        error: false,
+        message: "Sucesfully added!"
+      });
+    } else {
+      this.setState({
+        error: true,
+        success: false,
+        message: "Error when adding data!"
+      });
+    }
   }
 
   async deleteEmployee(id) {
-    let r = window.confirm("Do you want to delete this item");
+    let r = window.confirm("Do you want to delete this item?");
     if (r === true) {
-      this.props.deleteEmployee(id);
-      await axios.delete(`http://localhost:3001/employees/${id}`);
+      let response = await axios.delete(
+        `http://localhost:3001/employees/${id}`
+      );
+      if (response.status === 200) {
+        this.props.deleteEmployee(id);
+        this.setState({
+          success: true,
+          error: false,
+          message: "Sucesfully deleted!"
+        });
+      } else {
+        this.setState({
+          error: true,
+          success: false,
+          message: "Error when deleting data!"
+        });
+      }
     }
   }
 
   async editEmployeeSubmit(id, name, e_id, position) {
-    this.props.updateEmployee({ id, name, e_id, position });
-    await axios.put(`http://localhost:3001/employees/${id}`, {
+    let response = await axios.put(`http://localhost:3001/employees/${id}`, {
       name,
       e_id,
       position
     });
+    if (response.status === 200) {
+      this.props.updateEmployee({ id, name, e_id, position });
+      this.setState({
+        success: true,
+        error: false,
+        message: "Sucesfully edited!"
+      });
+    } else {
+      this.setState({
+        error: true,
+        success: false,
+        message: "Error when saving data!"
+      });
+    }
   }
 
   render() {
@@ -96,8 +152,30 @@ class App extends Component {
           </Paper>
 
           <Divider />
+          {this.state.error && (
+            <div>
+              <br />
+              <Chip
+                label={this.state.message}
+                onDelete={() => this.setState({ error: false })}
+                color="secondary"
+                variant="outlined"
+              />
+            </div>
+          )}
+          {this.state.success && (
+            <div>
+              <br />
+              <Chip
+                label={this.state.message}
+                onDelete={() => this.setState({ success: false })}
+                color="primary"
+                variant="outlined"
+              />
+            </div>
+          )}
+          <br />
           <Button
-            style={{ marginTop: "10px" }}
             onClick={this.addNewEmployee}
             variant="contained"
             color="primary"
