@@ -7,6 +7,7 @@ Simple CRUD react app that uses redux to save all the data.
 step 1:
 
 `npm start` to start react development server.
+
 step 2:
 
 `npm run mock-api` to start fake json-server api.
