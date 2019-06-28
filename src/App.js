@@ -65,7 +65,7 @@ class App extends Component {
       this.setState({
         success: true,
         error: false,
-        message: "Sucesfully added!"
+        message: "Sucessfully added!"
       });
     } else {
       this.setState({
@@ -87,7 +87,7 @@ class App extends Component {
         this.setState({
           success: true,
           error: false,
-          message: "Sucesfully deleted!"
+          message: "Sucessfully deleted!"
         });
       } else {
         this.setState({
@@ -110,7 +110,7 @@ class App extends Component {
       this.setState({
         success: true,
         error: false,
-        message: "Sucesfully edited!"
+        message: "Sucessfully edited!"
       });
     } else {
       this.setState({
